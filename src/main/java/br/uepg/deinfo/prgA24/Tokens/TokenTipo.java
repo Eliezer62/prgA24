@@ -30,5 +30,9 @@ public enum TokenTipo {
     IGUAL,
     MENOR,
     MAIOR,
-    ATRIBUICAO
+    ATRIBUICAO,
+    
+    //TIPOS
+    NUMERO,
+    VARIAVEL
 }
