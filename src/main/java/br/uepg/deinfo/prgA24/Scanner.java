@@ -64,12 +64,22 @@ public class Scanner
             System.err.println("Arquivo não encontrado");
         }
     }
-    private TokenTipo getToken(String token)
+    private TokenTipo getToken(String token) throws TokenInvalido
     {
         if(tokens.containsKey(token))
             return tokens.get(token);
         else
-            return null;
+        {
+            Pattern var = Pattern.compile("^[a-zA-Z_$][a-zA-Z_$0-9]*$", Pattern.CASE_INSENSITIVE);
+            Matcher matcher = var.matcher(token);
+            if(matcher.find()) return TokenTipo.VARIAVEL;
+
+            Pattern num = Pattern.compile("[0-9^]+", Pattern.CASE_INSENSITIVE);
+            Matcher numero = num.matcher(token);
+            if(numero.find()) return TokenTipo.NUMERO;
+            else
+                throw new TokenInvalido();
+        }
     }
 
 
@@ -87,16 +97,6 @@ public class Scanner
             for (String token : tokens) 
             {
                 tipos[index] = getToken(token);
-                if(tipos[index] == null)
-                {
-                    Pattern var = Pattern.compile("^[a-zA-Z_$][a-zA-Z_$0-9]*$", Pattern.CASE_INSENSITIVE);
-                    Matcher matcher = var.matcher(token);
-                    Pattern num = Pattern.compile("[0-9^]+", Pattern.CASE_INSENSITIVE);
-                    Matcher numero = num.matcher(token);
-                    if(matcher.find()) tipos[index] = TokenTipo.VARIAVEL;
-                    else if(numero.find()) tipos[index] = TokenTipo.NUMERO;
-                    else throw new TokenInvalido();
-                }
                 index++;
             }
             ts.push(tipos);
