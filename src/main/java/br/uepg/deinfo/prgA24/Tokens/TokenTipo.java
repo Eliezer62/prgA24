@@ -15,6 +15,7 @@ public enum TokenTipo {
     RETURN,
     PRINT,
     CALL,
+    BEGIN,
 
     //simbolos
     PONTOVIRGULA, 
@@ -34,5 +35,6 @@ public enum TokenTipo {
     
     //TIPOS
     NUMERO,
-    VARIAVEL
+    VARIAVEL,
+    CADEIA
 }
