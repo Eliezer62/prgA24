@@ -23,6 +23,7 @@ public class Parse
         parseBeginSection();
         expect(TokenTipo.ENDPROGRAM);
         expect(TokenTipo.PONTOVIRGULA);
+        System.out.println("Código válido");
     }
 
     private void parseDeclareSection() {
@@ -87,7 +88,11 @@ public class Parse
     private void parsePrint() {
         expect(TokenTipo.PRINT);
         expect(TokenTipo.ABREPARENTESES);
-        expect(TokenTipo.CADEIA);
+        if(check(TokenTipo.CADEIA))
+            expect(TokenTipo.CADEIA);
+        else
+            expect(TokenTipo.VARIAVEL);
+
         expect(TokenTipo.FECHAPARENTESES);
     }
 
@@ -150,6 +155,10 @@ public class Parse
             parseExpression();
             expect(TokenTipo.FECHAPARENTESES);
         }
+        else if(check(TokenTipo.CALL))
+        {
+            parseCall();
+        }
     }
 
     private void parseCondition() {
@@ -176,7 +185,7 @@ public class Parse
 
     private void advance() 
     {
-        if(posicaoAtual < linhaAtual.length)
+        if(posicaoAtual < linhaAtual.length-1)
             posicaoAtual++;
 
         else
