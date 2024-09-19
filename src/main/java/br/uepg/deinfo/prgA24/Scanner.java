@@ -26,6 +26,7 @@ public class Scanner
         //Tokens scanner
         tokens = new HashMap<>();
         tokens.put("Program", TokenTipo.PROGRAM);
+        tokens.put("begin", TokenTipo.BEGIN);
         tokens.put("int", TokenTipo.INT);
         tokens.put("then", TokenTipo.THEN);
         tokens.put("end", TokenTipo.END);
@@ -54,6 +55,7 @@ public class Scanner
         tokens.put("<", TokenTipo.MENOR);
         tokens.put(">", TokenTipo.MAIOR);
         tokens.put(":", TokenTipo.ATRIBUICAO);
+        tokens.put("STRING", TokenTipo.CADEIA);
 
         try 
         {
@@ -78,7 +80,7 @@ public class Scanner
             Matcher numero = num.matcher(token);
             if(numero.find()) return TokenTipo.NUMERO;
             else
-                throw new TokenInvalido();
+                throw new TokenInvalido(token);
         }
     }
 
@@ -89,6 +91,7 @@ public class Scanner
         while (sc.hasNextLine()) 
         {
             String linha = sc.nextLine();
+            linha = linha.replaceAll("\"[^\"]*\"", "STRING");
             Tokenizer tokenizer = SimpleTokenizer.INSTANCE;
             
             String[] tokens = tokenizer.tokenize(linha);
